@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DebitController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +22,11 @@ Route::post('/users', [UserController::class, 'store'])->name('users.store');
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/users', UserController::class)->only(['index', 'show', 'update', 'destroy']);
+
+    Route::apiResource('/categories', CategoryController::class);
+
+    Route::apiResource('categories.debits', DebitController::class);
+
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
