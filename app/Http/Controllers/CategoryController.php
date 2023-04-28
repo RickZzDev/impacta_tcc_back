@@ -29,14 +29,20 @@ class CategoryController extends Controller
     {
         $user = auth()->user();
 
-        DB::transaction(function () use ($request, $user) {
+        $category = new Category();
+
+        DB::transaction(function () use ($request, $user, &$category) {
             $category = $user->categories()->create([
                'title' => $request->get('title'),
                 'maxValue' => $request->get('maxValue')
             ]);
         });
 
-        return response()->json(status: JsonResponse::HTTP_CREATED);
+        return response()->json([
+            'data' => [
+                'category' => $category
+            ]
+        ],JsonResponse::HTTP_CREATED);
     }
 
     /**
@@ -44,7 +50,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryDebitResource($category);
+        return new CategoryResource($category);
     }
 
     /**
