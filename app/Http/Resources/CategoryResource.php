@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\Util;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,18 +21,7 @@ class CategoryResource extends JsonResource
             'maxValue' => $this->maxValue,
             'created_at' => $this->created_at->format('d/m/Y'),
             'debits' => $this->debits,
-            'debitsSum' => $this->debitsSum($this->debits)
+            'debitsSum' => Util::debitsSum($this->debits)
         ];
-    }
-
-    private function debitsSum($debits)
-    {
-        $sum = 0;
-
-        foreach ($debits as $debit) {
-            $sum += $debit->value;
-        }
-
-        return number_format($sum, 2, ',', '.');
     }
 }

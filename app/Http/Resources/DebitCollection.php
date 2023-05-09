@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\Util;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
@@ -16,7 +17,7 @@ class DebitCollection extends ResourceCollection
     {
         return [
             'debits' => $this->collection,
-            'debitSum' => ''
+            'debitSum' => Util::debitsSum($this->collection)
         ];
     }
 }
