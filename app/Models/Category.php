@@ -24,4 +24,39 @@ class Category extends Model
     {
         return $this->hasMany(Debit::class);
     }
+
+    public static function getDefaultCategories($monthlyIncome)
+    {
+        if (empty($monthlyIncome)) {
+            return [
+                [
+                    'title' => "Entretenimento",
+                    'maxValue' => 0
+                ],
+                [
+                    'title' => "Entretenimento",
+                    'maxValue' => 0
+                ],
+                [
+                    'title' => "Entretenimento",
+                    'maxValue' => 0
+                ]
+            ];
+        }
+
+        return [
+            [
+                'title' => "Gastos essenciais",
+                'maxValue' => $monthlyIncome * 0.6
+            ],
+            [
+                'title' => "Entretenimento",
+                'maxValue' => $monthlyIncome * 0.1
+            ],
+            [
+                'title' => "Viagens",
+                'maxValue' => $monthlyIncome * 0.3
+            ]
+        ];
+    }
 }

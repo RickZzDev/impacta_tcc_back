@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('/users', UserController::class)->only(['index', 'show', 'update', 'destroy']);
 
     Route::apiResource('/categories', CategoryController::class);
+    Route::get('user/categories', [CategoryController::class, 'userCategories'])->name('user.categories');
 
     Route::apiResource('categories.debits', DebitController::class);
 

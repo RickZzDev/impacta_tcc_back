@@ -23,6 +23,15 @@ class CategoryController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     */
+    public function userCategories()
+    {
+        $user = auth()->user();
+        return new CategoryCollection($user->categories);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreCategoryRequest $request)
@@ -33,7 +42,7 @@ class CategoryController extends Controller
 
         DB::transaction(function () use ($request, $user, &$category) {
             $category = $user->categories()->create([
-               'title' => $request->get('title'),
+                'title' => $request->get('title'),
                 'maxValue' => $request->get('maxValue')
             ]);
         });

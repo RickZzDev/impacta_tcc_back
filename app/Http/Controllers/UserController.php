@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -28,11 +29,15 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         DB::transaction(function () use($request) {
+
             $user = User::create([
                 'name' => $request->get('name'),
                 'password' => Hash::make($request->get('password')),
-                'email' => $request->get('email')
+                'email' => $request->get('email'),
+                'monthly_income' => $request->get('monthly_income')
             ]);
+
+            $user->categories()->createMany(Category::getDefaultCategories($user->monthly_income));
         });
 
         return response()->json(status: JsonResponse::HTTP_CREATED);
